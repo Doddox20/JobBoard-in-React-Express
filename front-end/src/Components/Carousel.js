@@ -21,6 +21,8 @@ const Carousel = ({ cards }) => {
   // Utilisez une déclaration conditionnelle pour vérifier si cards.data est défini
   const displayedCards = cards?.data ? cards.data.slice(startIndex, endIndex) : [];
 
+  const totalPages = cards?.data ? Math.ceil(cards.data.length / cardsPerPage) : 0;
+
   return (
     <div className="carousel">
       <div className="CardLayout">
@@ -30,12 +32,25 @@ const Carousel = ({ cards }) => {
           </div>
         ))}
       </div>
-      <button className="prev-button" onClick={prevSlide}>
-        Précédent
-      </button>
-      <button className="next-button" onClick={nextSlide}>
-        Suivant
-      </button>
+      <nav aria-label="Page navigation" className="pagin">
+        <ul className="pagination">
+          <li className={`page-item ${currentPage === 0 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={prevSlide}>
+              Précédent
+            </button>
+          </li>
+          <li className="page-item">
+            <span className="page-link">
+              Page {currentPage + 1} de {totalPages}
+            </span>
+          </li>
+          <li className={`page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={nextSlide}>
+              Suivant
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };

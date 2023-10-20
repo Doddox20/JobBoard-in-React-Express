@@ -58,6 +58,10 @@ header{
 }
 .card{
     width: 28rem;
+    
+}
+.pagination{
+justify-content: center;
 }
 
 
