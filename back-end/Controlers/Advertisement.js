@@ -1,4 +1,5 @@
 import  pool  from "./../config.js"
+import { format } from "date-fns";
 
 export const getAllAdvertissment = async (req, res) => {
     try {
@@ -61,7 +62,8 @@ export const createAdvertisement = async (req, res) => {
 export const updateAdvertisement = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd } = req.body;
+    const { nomAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd } = req.body;
+    const dateCreationAd = format(new Date(req.body.dateCreationAd), "yyyy-MM-dd HH:mm:ss");
 
     const query = "UPDATE Advertisement SET nomAd = ?, dateCreationAd = ?, descriptionAd = ?, salaireAd = ?, typeAd = ?, contractAd = ?, VilleAd = ? WHERE idAd = ?";
     const result = await pool.query(query, [nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd, id]);
@@ -75,16 +77,20 @@ export const updateAdvertisement = async (req, res) => {
 export const deleteAdvertisement = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const query = "DELETE FROM Advertisement WHERE idAd = ?";
+    const query = "DELETE FROM Advertisement WHERE idAd = CAST(? AS SIGNED)";
+    
     const result = await pool.query(query, [id]);
 
-    res.status(200).json({ message: "Annonce supprimée avec succès", data: result });
+    res.status(200).json({ message: "Annonce supprimée avec succès" });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Suppression de l'annonce échouée" });
   }
 };
+
+
+
+
 
 
   

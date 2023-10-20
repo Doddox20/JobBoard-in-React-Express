@@ -13,7 +13,7 @@ import JobDetail from "./Components/JobDetail";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
 
-import LoginAdmin from "./Components/LoginAdmin";
+import Admin from "./Components/Admin";
 
 function App() {
     const router = createBrowserRouter(
@@ -24,7 +24,7 @@ function App() {
                 <Route path="/JobDetail/:id" Component={JobDetail} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
-                <Route path="/Admin" element={<LoginAdmin />} />
+                <Route path="/Admin" element={<Admin />} />
             </Route>
         )
     )

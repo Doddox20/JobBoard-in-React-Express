@@ -14,7 +14,6 @@ function Admin() {
       const data = await response.json();
       console.log(data);
       setAdvertisements(data);
-      
     } catch (error) {
       console.error("Erreur lors de la récupération des annonces :", error);
     }
@@ -26,19 +25,21 @@ function Admin() {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/advertisement/id/${editingAdvertisement.data.data.idAd}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(editingAdvertisement),
+      if (editingAdvertisement?.idAd) {
+        const response = await fetch(
+          `http://localhost:3000/advertisement/id/${editingAdvertisement.idAd}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(editingAdvertisement),
+          }
+        );
+        if (response.status === 200) {
+          fetchAdvertisements();
+          setEditingAdvertisement(null);
         }
-      );
-      if (response.status === 200) {
-        fetchAdvertisements();
-        setEditingAdvertisement(null);
       }
     } catch (error) {
       console.error("Erreur lors de la mise à jour de l'annonce :", error);
@@ -47,24 +48,34 @@ function Admin() {
 
   const handleDelete = async (advertisementId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/advertisement/id/${advertisementId.data.data.idAd}`,
-        {
-          method: "DELETE",
+      if (advertisementId?.idAd) {
+        const response = await fetch(
+          `http://localhost:3000/advertisement/id/${advertisementId.idAd}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (response.status === 200) {
+          fetchAdvertisements();
         }
-      );
-      if (response.status === 200) {
-        fetchAdvertisements();
       }
     } catch (error) {
       console.error("Erreur lors de la suppression de l'annonce :", error);
     }
   };
 
+  const handleCellEdit = (e, field) => {
+    const newValue = e.target.innerText;
+    setEditingAdvertisement((prev) => ({
+      ...prev,
+      [field]: newValue,
+    }));
+  };
+
   return (
-    <div>
-      <h1>Tableau d'Administration - Annonces</h1>
-      <table>
+    <div className="container">
+      <h1 className="mt-4">Tableau d'Administration - Annonces</h1>
+      <table className="table mt-3">
         <thead>
           <tr>
             <th>ID</th>
@@ -78,106 +89,64 @@ function Admin() {
           </tr>
         </thead>
         <tbody>
-          {advertisements.map((advertisement) => (
-            <tr key={advertisement.data.data.idAd}>
-              <td>{advertisement.data.data.idAd}</td>
-              <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <input
-                    type="text"
-                    value={editingAdvertisement.data.data.nomAd}
-                    onChange={(e) =>
-                      setEditingAdvertisement({ ...editingAdvertisement, data: { data: { ...editingAdvertisement.data.data, nomAd: e.target.value } } })
-                    }
-                  />
-                ) : (
-                  advertisement.data.data.nomAd
-                )}
+          {advertisements?.data?.map((advertisement) => (
+            <tr key={advertisement?.idAd}>
+              <td>{advertisement?.idAd || ""}</td>
+              <td
+                contentEditable={editingAdvertisement?.idAd === advertisement?.idAd}
+                onInput={(e) => handleCellEdit(e, "nomAd")}
+              >
+                {advertisement?.nomAd || ""}
+              </td>
+              <td
+                contentEditable={editingAdvertisement?.idAd === advertisement?.idAd}
+                onInput={(e) => handleCellEdit(e, "dateCreationAd")}
+              >
+                {advertisement?.dateCreationAd || ""}
+              </td>
+              <td
+                contentEditable={editingAdvertisement?.idAd === advertisement?.idAd}
+                onInput={(e) => handleCellEdit(e, "descriptionAd")}
+              >
+                {advertisement?.descriptionAd || ""}
+              </td>
+              <td
+                contentEditable={editingAdvertisement?.idAd === advertisement?.idAd}
+                onInput={(e) => handleCellEdit(e, "salaireAd")}
+              >
+                {advertisement?.salaireAd || ""}
+              </td>
+              <td
+                contentEditable={editingAdvertisement?.idAd === advertisement?.idAd}
+                onInput={(e) => handleCellEdit(e, "typeAd")}
+              >
+                {advertisement?.typeAd || ""}
+              </td>
+              <td
+                contentEditable={editingAdvertisement?.idAd === advertisement?.idAd}
+                onInput={(e) => handleCellEdit(e, "contractAd")}
+              >
+                {advertisement?.contractAd || ""}
+              </td>
+              <td
+                contentEditable={editingAdvertisement?.idAd === advertisement?.idAd}
+                onInput={(e) => handleCellEdit(e, "VilleAd")}
+              >
+                {advertisement?.VilleAd || ""}
               </td>
               <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <input
-                    type="text"
-                    value={editingAdvertisement.data.data.dateCreationAd}
-                    onChange={(e) =>
-                      setEditingAdvertisement({ ...editingAdvertisement, data: { data: { ...editingAdvertisement.data.data, dateCreationAd: e.target.value } } })
-                    }
-                  />
+                {editingAdvertisement?.idAd === advertisement?.idAd ? (
+                  <button className="btn btn-primary" onClick={handleUpdate}>
+                    Enregistrer
+                  </button>
                 ) : (
-                  advertisement.data.data.dateCreationAd
+                  <button className="btn btn-info" onClick={() => handleEdit(advertisement)}>
+                    Éditer
+                  </button>
                 )}
-              </td>
-              <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <textarea
-                    value={editingAdvertisement.data.data.descriptionAd}
-                    onChange={(e) =>
-                      setEditingAdvertisement({ ...editingAdvertisement, data: { data: { ...editingAdvertisement.data.data, descriptionAd: e.target.value } } })
-                    }
-                  />
-                ) : (
-                  advertisement.data.data.descriptionAd
-                )}
-              </td>
-              <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <input
-                    type="text"
-                    value={editingAdvertisement.data.data.salaireAd}
-                    onChange={(e) =>
-                      setEditingAdvertisement({ ...editingAdvertisement, data: { data: { ...editingAdvertisement.data.data, salaireAd: e.target.value } } })
-                    }
-                  />
-                ) : (
-                  advertisement.data.data.salaireAd
-                )}
-              </td>
-              <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <input
-                    type="text"
-                    value={editingAdvertisement.data.data.typeAd}
-                    onChange={(e) =>
-                      setEditingAdvertisement({ ...editingAdvertisement, data: { data: { ...editingAdvertisement.data.data, typeAd: e.target.value } } })
-                    }
-                  />
-                ) : (
-                  advertisement.data.data.typeAd
-                )}
-              </td>
-              <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <input
-                    type="text"
-                    value={editingAdvertisement.data.data.contractAd}
-                    onChange={(e) =>
-                      setEditingAdvertisement({ ...editingAdvertisement, data: { data: { ...editingAdvertisement.data.data, contractAd: e.target.value } } })
-                    }
-                  />
-                ) : (
-                  advertisement.data.data.contractAd
-                )}
-              </td>
-              <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <input
-                    type="text"
-                    value={editingAdvertisement.data.data.VilleAd}
-                    onChange={(e) =>
-                      setEditingAdvertisement({ ...editingAdvertisement, data: { data: { ...editingAdvertisement.data.data, VilleAd: e.target.value } } })
-                    }
-                  />
-                ) : (
-                  advertisement.data.data.VilleAd
-                )}
-              </td>
-              <td>
-                {editingAdvertisement && editingAdvertisement.data.data.idAd === advertisement.data.data.idAd ? (
-                  <button onClick={handleUpdate}>Enregistrer</button>
-                ) : (
-                  <button onClick={() => handleEdit(advertisement)}>Éditer</button>
-                )}
-                <button onClick={() => handleDelete(advertisement.data.data.idAd)}>Supprimer</button>
+                <button className="btn btn-danger" onClick={() => handleDelete(advertisement?.idAd)}>
+                  Supprimer
+                </button>
               </td>
             </tr>
           ))}
