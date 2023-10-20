@@ -1,4 +1,5 @@
 import express from "express";
+import {sessionChecker} from "../sessionChecker.js";
 
 import { deleteUser, getAllUser } from "./../Controlers/User.js";
 

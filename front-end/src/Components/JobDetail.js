@@ -18,7 +18,7 @@ function JobDetail() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/advertisement/${id}`)
+    fetch(`http://localhost:3000/advertisement/id/${id}`)
       .then((response) => response.json())
       .then((data) => setJobDetail(data))
       .catch((error) =>

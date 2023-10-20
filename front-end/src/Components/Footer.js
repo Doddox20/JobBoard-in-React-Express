@@ -1,4 +1,3 @@
-import Button from "./Button";
 import Register from "./Register";
 import React, { useState } from "react";
 function Footer() {

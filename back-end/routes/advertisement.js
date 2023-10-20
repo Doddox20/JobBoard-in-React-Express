@@ -1,6 +1,5 @@
 import express from "express";
-import { getAllAdvertissment } from "./../Controlers/Advertisement.js";
-import { getAdvertisementById } from "./../Controlers/Advertisement.js";
+import {sessionChecker} from "../sessionChecker.js";
 
 import {
   getAllAdvertissment,
@@ -19,8 +18,7 @@ router.post("/", createAdvertisement);
 router.put("/id/:id", updateAdvertisement);
 router.delete("/id/:id", deleteAdvertisement);
 
-router.get('/', sessionChecker, async function(req,
-                                               res, next) {
+router.get('/', sessionChecker, async function(req, res, next) {
     res.redirect('/account');
 });
 

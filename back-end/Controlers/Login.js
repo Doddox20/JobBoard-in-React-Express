@@ -22,30 +22,6 @@ export const verifyLogin = async (req, res) => {
         }
         res.status(200).json({message: "Utilisateur connecté"});
 
-        // initialize(passport, email => {
-        //         return pool.query(
-        //             "SELECT * FROM userapplicant WHERE emailUser = ?",
-        //             [email]
-        //         );
-        //     },
-        //     id => {
-        //         return pool.query(
-        //             "SELECT * FROM userapplicant WHERE idUser = ?", [id]);
-        //     }
-        // );
-        // passport.authenticate("local", (err, user, info) => {
-        //     if (err) throw err;
-        //     if (!user) res.status(400).json({message: "Aucun utilisateur trouvé"});
-        //     else {
-        //         req.logIn(user, err => {
-        //             if (err) throw err;
-        //             res.status(200).json({message: "Utilisateur connecté"});
-        //             console.log(req.user);
-        //         });
-        //     }
-        // })
-        //
-        // (req, res);
     } catch (error) {
         console.error(error);
         res.status(400).json({message: "Requête échouée"});
