@@ -48,10 +48,10 @@ export const getAdvertisementByCom = async (req, res) => {
 };
 export const createAdvertisement = async (req, res) => {
   try {
-    const { nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd } = req.body;
+    const { nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd, IdCom } = req.body;
 
-    const query = "INSERT INTO Advertisement (nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    const result = await pool.query(query, [nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd]);
+    const query = "INSERT INTO Advertisement (nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd, IdCom) VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+    const result = await pool.query(query, [nomAd, dateCreationAd, descriptionAd, salaireAd, typeAd, contractAd, VilleAd, IdCom]);
 
     res.status(201).json({ message: "Annonce créée avec succès", data: result });
   } catch (error) {
