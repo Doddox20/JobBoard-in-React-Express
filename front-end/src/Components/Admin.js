@@ -11,7 +11,7 @@ function Admin() {
     typeAd: "",
     contractAd: "",
     VilleAd: "",
-    idCom: ""
+    IdCom: ""
   });
 
   useEffect(() => {
@@ -81,8 +81,8 @@ function Admin() {
   const handleCreateAdvertisement = async () => {
     try {
       // Vérifiez d'abord si idCom n'est pas vide
-      if (!newAdvertisement.idCom) {
-        console.error("Le champ 'idCom' ne peut pas être vide.");
+      if (!newAdvertisement.IdCom) {
+        console.error("Le champ 'IdCom' ne peut pas être vide.");
         return; // Arrêtez la fonction ici
       }
   
@@ -107,7 +107,7 @@ function Admin() {
           typeAd: "",
           contractAd: "",
           VilleAd: "",
-          idCom: ""
+          IdCom: ""
         });
       }
     } catch (error) {
@@ -247,8 +247,8 @@ function Admin() {
         <input
           type="text"
           placeholder="ID de la Compagnie"
-          value={newAdvertisement.idCom}
-          onChange={(e) => setNewAdvertisement({ ...newAdvertisement, idCom: e.target.value })}
+          value={newAdvertisement.IdCom}
+          onChange={(e) => setNewAdvertisement({ ...newAdvertisement, IdCom: e.target.value })}
         />
         <button onClick={handleCreateAdvertisement}>Enregistrer la nouvelle annonce</button>
       </div>
