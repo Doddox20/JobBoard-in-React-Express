@@ -1,7 +1,20 @@
+import {Outlet} from "react-router-dom";
+
+// Pages
+import Header from "../Components/Header";
+import Footer from "../Components/Footer";
+
+
 function Layout(){
-    return(
+    return (
         <div>
-            <h1>Layout</h1>
+            <Header />
+            <main>
+                <Outlet />
+            </main>
+            <Footer />
         </div>
     )
 }
+
+export default Layout;
